@@ -1,2 +1,2 @@
-Database : database_cuti.sql <br>
+Database : database_cuti.sql
 Link access : http://localhost/web-cuti
