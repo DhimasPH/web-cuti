@@ -13,9 +13,15 @@ class User_auth {
 				redirect('Login');		
 			}
 		}else{
-			if($uri2[0]=='Login'){
+			
+			if($uri2[0]==''){
 				redirect('Dashboard');		
+			}else{
+				if($uri2[0]=='Login'){
+					redirect('Dashboard');		
+				}
 			}
+			
 		}
 	}
 

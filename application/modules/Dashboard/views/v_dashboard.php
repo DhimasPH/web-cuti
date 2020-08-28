@@ -23,7 +23,7 @@
 
     <a class="navbar-brand mr-1" href="index.html">Hai <?php echo $this->session->userdata('name') ?></a>
 
-    <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    <div class="form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto ml-md-0">
         <li class="nav-item dropdown no-arrow">
@@ -42,6 +42,7 @@
   <div id="wrapper">
 
     <div id="content-wrapper">
+      <noscript>Please enable the javascript.</noscript>
 
       <div class="container list-data">
 
@@ -107,7 +108,7 @@
             </div>
           </div>
           <div class="card-footer">
-            <a class="btn btn-primary float-sm-right" href="#"><i class="fas fa-plus"></i>Tambah</a>
+            <a class="btn btn-primary float-sm-right" id="add-cuti" href="#add-leave"><i class="fas fa-plus"></i>Tambah</a>
           </div>
         </div>
 
@@ -124,60 +125,69 @@
 
         <div class="card mb-3">
           <div class="card-header">
-            Filter Pencarian Data
+            Form Input Cuti
           </div>
           <div class="card-body">
-            <?php echo form_open('#','method="post"'); ?>
+            <?php echo form_open('#','method="post" id="form-add" '); ?>
+              <input type="hidden" value="<?php echo $this->session->userdata('priviledge'); ?>" name="priviledge">
               <div class="form-group row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Tanggal Request</label>
                 <div class="col-sm-6">
-                    <input type="date" name="daterequest_add" class="form-control" placeholder="Start Date">
+                    <input type="text" value="<?php echo date('d-F-Y'); ?>" class="form-control" placeholder="Tanggal Request" required readonly>
+                    <input type="hidden" value="<?php echo date('Y-m-d'); ?>" name="daterequest_add">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Requester</label>
                 <div class="col-sm-6">
-                <input type="text" name="requester_add" <?php if($this->session->userdata('priviledge')== 1) { echo 'value="'.$this->session->userdata('name').'" readonly'; } ?> class="form-control" placeholder="Requester">
+                <input type="text" name="requester_add" <?php if($this->session->userdata('priviledge')== 1) { echo 'value="'.$this->session->userdata('name').'" readonly'; } ?> class="form-control" placeholder="Requester" required>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Keterangan</label>
                 <div class="col-sm-6">
-                  <input type="text" name="keterangan_add" class="form-control" placeholder="Keterangan">
+                  <input type="text" name="desc_add" class="form-control" placeholder="Keterangan" required>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Dari Tanggal</label>
                 <div class="col-sm-6">
-                    <input type="date" name="startdate_add" class="form-control" placeholder="Start Date">
+                    <input type="date" name="startdate_add" class="form-control" placeholder="Dari Tanggal" required>
                 </div>
               </div>
               <div class="form-group row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Sampai Tanggal</label>
                 <div class="col-sm-6">
-                    <input type="date" name="enddate_add" class="form-control" placeholder="Start Date">
+                    <input type="date" name="enddate_add" class="form-control" placeholder="Sampai Tanggal" required>
                 </div>
               </div>
+              <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Jenis Cuti</label>
+                <div class="col-sm-6">
+                  <input type="text" name="jenis_add" class="form-control" placeholder="Jenis Cuti" required>
+                </div>
+              </div>
+              <button class="btn btn-primary float-sm-right mb-5" type="submit">Add row</button>
             <?php echo form_close(); ?>
-            <a class="btn btn-primary float-sm-right mb-5" href="#">Add row</a>
             <div class="table-responsive">
               <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                   <tr>
                     <th>Dari Tanggal</th>
                     <th>Sampai Tanggal</th>
-                    <th>Keterangan</th>
+                    <th>Jenis Cuti</th>
                     <th></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="table-add">
+                 
                 </tbody>
               </table>
             </div>
           </div>
           <div class="card-footer">
-            <a class="btn btn-success float-sm-right" href="#">Simpan</a>
-            <a class="btn btn-danger float-sm-left" href="#">Batal</a>
+            <a class="btn btn-warning float-sm-left" href="<?php echo site_url();?>">Batal</a>
+            <a class="btn btn-primary float-sm-right" id="save-add" href="#">Simpan</a>
           </div>
         </div>
 
@@ -188,66 +198,47 @@
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a>List Cuti</a>
+            <a>Detail Cuti</a>
           </li>
         </ol>
 
         <div class="card mb-3">
-          <div class="card-header">
-            Filter Pencarian Data
-          </div>
           <div class="card-body">
-            <?php echo form_open('#','method="post"'); ?>
-              <div class="form-group row">
-                <label for="staticEmail" class="col-sm-2 col-form-label">Tanggal Request</label>
-                <div class="col-sm-6 row">
-                  <div class="col-6">
-                    <input type="date" name="startdate" class="form-control" placeholder="Start Date">
-                  </div>
-                  <div class="col-6">
-                    <input type="date" name="enddate" class="form-control" placeholder="End Date">
-                  </div>
-                </div>
+            <div class="row">
+              <div class="col-sm-2"><h6>Tanggal Request</h6></div>
+              <div class="col-sm-6">
+                <p>20-Mei-2020</p>
               </div>
-              <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Requester</label>
-                <div class="col-sm-6">
-                  <input type="text" name="requester" class="form-control" placeholder="Requester">
-                </div>
+            </div>
+            <div class="row">
+              <div  class="col-sm-2"><h6>Requester</h6></div>
+              <div class="col-sm-6">
+                <p>Ujang</p>
               </div>
-              <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Keterangan</label>
-                <div class="col-sm-6">
-                  <input type="text" name="keterangan" class="form-control" placeholder="Keterangan">
-                </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2"><h6>Keterangan</h6></div>
+              <div class="col-sm-6">
+                <p>Liburan</p>
               </div>
-            <?php echo form_close(); ?>
-          </div>
-          <div class="card-footer">
-            <a class="btn btn-primary float-sm-right" href="#">Cari</a>
-          </div>
-        </div>
-
-        <!-- DataTables Example -->
-        <div class="card mb-3">
-          <div class="card-body">
+            </div>
             <div class="table-responsive">
               <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Action</th>
                     <th>Tanggal Request</th>
                     <th>Requester</th>
                     <th>Keterangan</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="table-detail">
                 </tbody>
               </table>
             </div>
           </div>
           <div class="card-footer">
-            <a class="btn btn-primary float-sm-right" href="#"><i class="fas fa-plus"></i>Tambah</a>
+            <a class="btn btn-primary float-sm-right" href="#">Kembali ke halaman list</a>
+            <a class="btn btn-primary float-sm-left" href="#">Edit</a>
           </div>
         </div>
 
@@ -266,13 +257,7 @@
   <!-- Page level plugin JavaScript-->
   <script src="<?php echo base_url()?>assets/vendor/datatables/jquery.dataTables.js"></script>
   <script src="<?php echo base_url()?>assets/vendor/datatables/dataTables.bootstrap4.js"></script>
-
-  <script>
-    // Call the dataTables jQuery plugin
-    $(document).ready(function() {
-      $('#dataTable').DataTable();
-    });
-  </script>
+  <script src="<?php echo base_url()?>assets/js/main.js"></script>
 
 </body>
 

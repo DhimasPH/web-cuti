@@ -25,19 +25,42 @@ class Dashboard extends MY_Controller {
 		$this->load->view('v_dashboard',$data);
 	}
 
-	function detailPesan(){
-		$id = $this->input->get('id');
-		if($id){
-			$results = $this->db->query("SELECT * FROM estimate WHERE id = '".$this->db->escape_str($id)."' ")->result();
-			if(count($results)>0){
-				$respon = array('status' => 'success', 'message' => strip_tags($results[0]->pesan), 'nama' => $results[0]->nama);
-			}else{
-				$respon = array('status' => 'failed', 'message' => 'Gagal');
+	function saveLeave(){
+		$data = $this->input->post('data_leave');
+		
+		$datas = json_decode($data);
+
+		if($data){
+			$tmp = array();
+
+			foreach($datas as $arg)
+			{
+				$tmp[$arg->requester_add][] = $arg;
+			}
+
+			$lastArr = array();
+
+			foreach($tmp as $requester_add => $detail)
+			{
+				$lastArr[] = array(
+					'requester_add' => $requester_add,
+					'detail' => $detail
+				);
+			}
+
+			for ($i=0; $i <count($lastArr) ; $i++) { 
+				$details = $lastArr[$i]->detail;
+				$dataParent = array(
+					'username' => $datas[$i]->requester_add,
+					'create_by' => $this->session->userdata('username'),
+					'create_date' => date('Y-m-d')
+				);
+				
 			}
 		}else{
-			$respon = array('status' => 'failed', 'message' => 'Gagal');
+			$message = array('status'=> 'failed' , 'message' => 'Gagal menyimpan data');
+			echo json_encode($message);
 		}
-		echo json_encode($respon);
 	}
 
 	function logout(){

@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'Login';
-$route['404_override'] = 'Main/lost';
+$route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 // $route['Team/(:any)/(:any)'] = 'Team/teams/$1/$2';
