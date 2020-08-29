@@ -58,7 +58,7 @@
             Filter Pencarian Data
           </div>
           <div class="card-body">
-            <?php echo form_open('#','method="post"'); ?>
+            <?php echo form_open('#','method="get" class="filter_data"'); ?>
               <div class="form-group row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Tanggal Request</label>
                 <div class="col-sm-6 row">
@@ -79,14 +79,14 @@
               <div class="form-group row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Keterangan</label>
                 <div class="col-sm-6">
-                  <input type="text" name="keterangan" class="form-control" placeholder="Keterangan">
+                  <input type="text" name="desc" class="form-control" placeholder="Keterangan">
                 </div>
               </div>
-            <?php echo form_close(); ?>
           </div>
           <div class="card-footer">
-            <a class="btn btn-primary float-sm-right" href="#">Cari</a>
+            <button class="btn btn-primary float-sm-right" type="submit">Cari</button>
           </div>
+          <?php echo form_close(); ?>
         </div>
 
         <!-- DataTables Example -->
@@ -133,8 +133,7 @@
               <div class="form-group row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Tanggal Request</label>
                 <div class="col-sm-6">
-                    <input type="text" value="<?php echo date('d-F-Y'); ?>" class="form-control" placeholder="Tanggal Request" required readonly>
-                    <input type="hidden" value="<?php echo date('Y-m-d'); ?>" name="daterequest_add">
+                    <input type="date" name="daterequest_add" class="form-control" placeholder="Tanggal Request" required>
                 </div>
               </div>
               <div class="form-group row">
@@ -206,29 +205,29 @@
           <div class="card-body">
             <div class="row">
               <div class="col-sm-2"><h6>Tanggal Request</h6></div>
-              <div class="col-sm-6">
-                <p>20-Mei-2020</p>
+              <div class="col-sm-6" id="detail_date_request">
+                
               </div>
             </div>
             <div class="row">
               <div  class="col-sm-2"><h6>Requester</h6></div>
-              <div class="col-sm-6">
-                <p>Ujang</p>
+              <div class="col-sm-6" id="detail_requester">
+                
               </div>
             </div>
             <div class="row">
               <div class="col-sm-2"><h6>Keterangan</h6></div>
-              <div class="col-sm-6">
-                <p>Liburan</p>
+              <div class="col-sm-6" id="detail_desc">
+                
               </div>
             </div>
             <div class="table-responsive">
               <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Tanggal Request</th>
-                    <th>Requester</th>
-                    <th>Keterangan</th>
+                    <th>Dari Tanggal</th>
+                    <th>Sampai Tanggal</th>
+                    <th>Jenis Cuti</th>
                   </tr>
                 </thead>
                 <tbody id="table-detail">
@@ -237,7 +236,7 @@
             </div>
           </div>
           <div class="card-footer">
-            <a class="btn btn-primary float-sm-right" href="#">Kembali ke halaman list</a>
+            <a class="btn btn-primary float-sm-right" href="<?php echo site_url() ?>">Kembali ke halaman list</a>
             <a class="btn btn-primary float-sm-left" href="#">Edit</a>
           </div>
         </div>

@@ -53,9 +53,10 @@ class Login extends MY_Controller {
 			$message['username'] = $param['username'];
 		}else{
 			$message['alert'] = 'danger';
-			$message['message'] = 'Error jingan :( ';
+			$message['message'] = 'Error :( ';
 		}
 		$this->session->set_flashdata($message);
+		
 		redirect('Login');
 	}
 
