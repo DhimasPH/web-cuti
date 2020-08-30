@@ -237,7 +237,85 @@
           </div>
           <div class="card-footer">
             <a class="btn btn-primary float-sm-right" href="<?php echo site_url() ?>">Kembali ke halaman list</a>
-            <a class="btn btn-primary float-sm-left" href="#">Edit</a>
+            <a class="btn btn-primary float-sm-left" id="edits_data"  href="#">Edit</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="container edit-data">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a>Edit Cuti</a>
+          </li>
+        </ol>
+
+        <div class="card mb-3">
+          <div class="card-header">
+            Form Edit Cuti
+          </div>
+          <div class="card-body">
+            <?php echo form_open('#','method="post" id="form-edit" '); ?>
+              <input type="hidden" value="<?php echo $this->session->userdata('priviledge'); ?>" name="priviledge">
+              <div class="form-group row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Tanggal Request</label>
+                <div class="col-sm-6">
+                    <input type="date" name="daterequest_edit" class="form-control" placeholder="Tanggal Request" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Requester</label>
+                <div class="col-sm-6">
+                <input type="text" name="requester_edit" <?php if($this->session->userdata('priviledge')== 1) { echo 'value="'.$this->session->userdata('name').'" readonly'; } ?> class="form-control" placeholder="Requester" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Keterangan</label>
+                <div class="col-sm-6">
+                  <input type="text" name="desc_edit" class="form-control" placeholder="Keterangan" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Dari Tanggal</label>
+                <div class="col-sm-6">
+                    <input type="date" name="startdate_edit" class="form-control" placeholder="Dari Tanggal" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Sampai Tanggal</label>
+                <div class="col-sm-6">
+                    <input type="date" name="enddate_edit" class="form-control" placeholder="Sampai Tanggal" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Jenis Cuti</label>
+                <div class="col-sm-6">
+                  <input type="text" name="jenis_edit" class="form-control" placeholder="Jenis Cuti" required>
+                </div>
+              </div>
+              <button class="btn btn-primary float-sm-right mb-5" type="submit">Add row</button>
+            <?php echo form_close(); ?>
+            <div class="table-responsive">
+              <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Dari Tanggal</th>
+                    <th>Sampai Tanggal</th>
+                    <th>Jenis Cuti</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="table-edit">
+                 
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a class="btn btn-warning float-sm-left" href="<?php echo site_url();?>">Batal</a>
+            <a class="btn btn-primary float-sm-right" id="save-edit" href="#">Simpan</a>
           </div>
         </div>
 

@@ -10590,6 +10590,10 @@ body {
   display: none;
 }
 
+.edit-data{
+  display: none;
+}
+
 .scroll-to-top {
   position: fixed;
   right: 15px;

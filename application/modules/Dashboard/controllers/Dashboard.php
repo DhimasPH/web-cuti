@@ -40,16 +40,17 @@ class Dashboard extends MY_Controller {
 		$desc = $this->input->get('desc');
 		$where='';
 
-		if($this->session->userdata('priviledge') != 0 ){
-			$requester = $this->session->userdata('name');
-		}
-
 		if(($startdate)&&(!$enddate)){
 			$where .= 'WHERE date_request = "'.$this->db->escape_str($startdate).'" ';
 		}elseif((!$startdate)&&($enddate)){
 			$where .= 'WHERE date_request = "'.$this->db->escape_str($enddate).'" ';
 		}elseif(($startdate)&&($enddate)){
 			$where .= 'WHERE date_request >= "'.$this->db->escape_str($startdate).'" AND date_request <= "'.$this->db->escape_str($enddate).'" ' ;
+		}
+
+		if($this->session->userdata('priviledge') != 0 ){
+			$requester = $this->session->userdata('name');
+			$where .= ' WHERE name LIKE "%'.$this->db->escape_str($requester).'%" ';
 		}
 
 		if(($where)&&($requester)){
@@ -266,6 +267,81 @@ class Dashboard extends MY_Controller {
 			$res = array('status' => 'failed' , 'message' => 'Parameter salah' );
 		}
 		echo json_encode($res);
+	}
+
+	function delete_data(){
+		$id = $this->input->get('id');
+		if($id){
+			$sql = "SELECT * FROM tbl_leave WHERE id = '".$this->db->escape_str($id)."' ";
+			$results = $this->db->query($sql)->result();
+			if($results){
+				$sql2 = "DELETE FROM tbl_leave WHERE `date_request` = '".$results[0]->date_request."' AND `name` = '".$results[0]->name."'AND `desc` = '".$results[0]->desc."'  ";
+				$results2 = $this->db->query($sql2);
+				if($results2){
+					$res = array('status' => 'success' , 'message' => 'Data berasil dihapus' );
+				}else{
+					$res = array('status' => 'failed' , 'message' => 'Gagal menghapus data' );
+				}
+			}else{
+				$res = array('status' => 'failed' , 'message' => 'Gagal menghapus data' );
+			}
+		}else{
+			$res = array('status' => 'failed' , 'message' => 'Parameter salah' );
+		}
+		echo json_encode($res);
+	}
+
+	function delete_data_byId(){
+		$id = $this->input->get('id');
+		if($id){
+			$sql = "SELECT * FROM tbl_leave WHERE id = '".$this->db->escape_str($id)."' ";
+			$results = $this->db->query($sql)->result();
+			if($results){
+				$sql2 = "DELETE FROM tbl_leave WHERE `id` = '".$id."' ";
+				$results2 = $this->db->query($sql2);
+				if($results2){
+					$res = array('status' => 'success' , 'message' => 'Data berasil dihapus' );
+				}else{
+					$res = array('status' => 'failed' , 'message' => 'Gagal menghapus data' );
+				}
+			}else{
+				$res = array('status' => 'success' , 'message' => 'Data berasil dihapus' );
+			}
+		}else{
+			$res = array('status' => 'failed' , 'message' => 'Parameter salah' );
+		}
+		echo json_encode($res);
+	}
+
+	function saveEditLeave(){
+		$data = $this->input->post('data_edit_leave');
+		
+		$datas = json_decode($data);
+
+		if($data){
+			for ($i=0; $i <count($datas) ; $i++) { 
+				$dataUpdate = array(
+					'name' => $datas[$i]->name,
+					'date_request' => $datas[$i]->date_request,
+					'desc' => $datas[$i]->desc,
+					'start_date' => $datas[$i]->start_date,
+					'end_date' => $datas[$i]->end_date,
+					'type' => $datas[$i]->type,
+					'change_by' => $this->session->userdata('username'),
+					'change_date' => date('Y-m-d H:i:s')	
+				);
+				if($datas[$i]->id !=''){
+					$this->db->where('id',$datas[$i]->id);
+					$this->db->update('tbl_leave',$dataUpdate);
+				}else{
+					$this->db->insert('tbl_leave',$dataUpdate);
+				}
+			}
+			$message = array('status'=> 'success' , 'message' => 'Berhasil mengedit data');
+		}else{
+			$message = array('status'=> 'failed' , 'message' => 'Gagal mengedit data');
+		}
+		echo json_encode($message);
 	}
 
 	function logout(){
